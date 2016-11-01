@@ -8,18 +8,27 @@ import org.slf4j.LoggerFactory;
 
 import core.db.DataBase;
 import core.mvc.Controller;
+import next.dao.UserDao;
 import next.model.User;
 
 public class CreateUserController implements Controller {
-    private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
+	private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
 
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        User user = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
-                req.getParameter("email"));
-        log.debug("User : {}", user);
+	@Override
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		User user = new User(req.getParameter("userId"), req.getParameter("password"), req.getParameter("name"),
+				req.getParameter("email"));
+		log.debug("User : {}", user);
 
-        DataBase.addUser(user);
-        return "redirect:/";
-    }
+		// DataBase.addUser(user);
+		try {
+			UserDao userDao = new UserDao();
+			userDao.insert(user);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage());
+
+		}
+		return "redirect:/";
+	}
 }
