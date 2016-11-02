@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import core.db.DataBase;
 import core.mvc.Controller;
 import next.dao.UserDao;
 import next.model.User;
@@ -21,14 +20,9 @@ public class CreateUserController implements Controller {
 		log.debug("User : {}", user);
 
 		// DataBase.addUser(user);
-		try {
-			UserDao userDao = new UserDao();
-			userDao.insert(user);
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage());
-
-		}
+		UserDao userDao = new UserDao();
+		userDao.insert(user);
+		
 		return "redirect:/";
 	}
 }

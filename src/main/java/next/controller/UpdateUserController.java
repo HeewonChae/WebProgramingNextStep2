@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import core.db.DataBase;
 import core.mvc.Controller;
 import next.dao.UserDao;
 import next.model.User;
@@ -17,7 +16,6 @@ public class UpdateUserController implements Controller {
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		// User user = DataBase.findUserById(req.getParameter("userId"));
-		try {
 			UserDao userDao = new UserDao();
 			User user = userDao.findByUserId(req.getParameter("userId"));
 			
@@ -30,9 +28,6 @@ public class UpdateUserController implements Controller {
 			log.debug("Update User : {}", updateUser);
 			user.update(updateUser);
 			userDao.update(user);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
 		
 		return "redirect:/";
 	}
